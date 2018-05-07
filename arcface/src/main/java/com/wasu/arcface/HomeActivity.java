@@ -27,6 +27,7 @@ public class HomeActivity extends Activity implements OnClickListener {
 	private static final int REQUEST_CODE_IMAGE_CAMERA = 1;
 	private static final int REQUEST_CODE_IMAGE_OP = 2;
 	private static final int REQUEST_CODE_OP = 3;
+	private static final int REQUEST_CODE_OP_DETECTER = 4;
 	private Application application;
 	private RegisterViewAdapter mRegisterViewAdapter;
 	private ListView mHListView;
@@ -77,6 +78,13 @@ public class HomeActivity extends Activity implements OnClickListener {
 			Bundle bundle = data.getExtras();
 			String path = bundle.getString("imagePath");
 			Log.i(TAG, "path="+path);
+		} else if (requestCode == REQUEST_CODE_OP_DETECTER) {
+			Log.i(TAG, "RESULT =" + resultCode);
+			if (resultCode == RESULT_OK) {
+				Toast.makeText(getApplicationContext(),"比对通过!",Toast.LENGTH_SHORT).show();
+			}else{
+				Toast.makeText(getApplicationContext(),"比对失败!",Toast.LENGTH_SHORT).show();
+			}
 		} else if (requestCode == REQUEST_CODE_IMAGE_CAMERA && resultCode == RESULT_OK) {
 			Uri mPath = application.getCaptureImage();
 			String file = getPath(mPath);
@@ -269,7 +277,7 @@ public class HomeActivity extends Activity implements OnClickListener {
 	private void startDetector(int camera) {
 		Intent it = new Intent(HomeActivity.this, DetecterActivity.class);
 		it.putExtra("Camera", camera);
-		startActivityForResult(it, REQUEST_CODE_OP);
+		startActivityForResult(it, REQUEST_CODE_OP_DETECTER);
 	}
 
 }

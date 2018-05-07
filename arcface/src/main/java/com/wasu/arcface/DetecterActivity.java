@@ -151,7 +151,9 @@ public class DetecterActivity extends Activity implements OnCameraListener, View
 					//fr success.
 					final float max_score = max;
 					Log.d(TAG, "fit Score:" + max + ", NAME:" + name);
-					final String mNameShow = name;
+					setResult(RESULT_OK);
+					finish();
+					/*final String mNameShow = name;
 					mHandler.removeCallbacks(hide);
 					mHandler.post(new Runnable() {
 						@Override
@@ -170,9 +172,10 @@ public class DetecterActivity extends Activity implements OnCameraListener, View
 							mImageView.setImageAlpha(255);
 							mImageView.setImageBitmap(bmp);
 						}
-					});
+					});*/
 				} else {
-					final String mNameShow = "未识别";
+					finish();
+					/*final String mNameShow = "未识别";
 					DetecterActivity.this.runOnUiThread(new Runnable() {
 						@Override
 						public void run() {
@@ -189,7 +192,7 @@ public class DetecterActivity extends Activity implements OnCameraListener, View
 							}
 							mImageView.setImageBitmap(bmp);
 						}
-					});
+					});*/
 				}
 				mImageNV21 = null;
 			}
