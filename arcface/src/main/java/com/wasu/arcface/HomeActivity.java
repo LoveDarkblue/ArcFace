@@ -1,10 +1,8 @@
 package com.wasu.arcface;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.ContentUris;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -102,15 +100,7 @@ public class HomeActivity extends Activity implements OnClickListener {
         isRegister = getIntent().getBooleanExtra(IN_KEY, false);
         if (!isRegister) {
             device_check();
-            int dev = FrontId;
-            if (dev == -1) {
-                dev = BackId;
-                if (dev == -1) {
-                    showCameraError();
-                    return; //no camera
-                }
-            }
-            startDetector(dev);
+            startDetector();
             return;
         }
 
@@ -220,7 +210,8 @@ public class HomeActivity extends Activity implements OnClickListener {
             if (application.mFaceDB.mRegister.isEmpty()) {
                 Toast.makeText(this, "没有注册人脸，请先注册！", Toast.LENGTH_SHORT).show();
             } else {
-                new AlertDialog.Builder(this)
+                startDetector();
+                /*new AlertDialog.Builder(this)
                         .setTitle("请选择相机")
                         .setIcon(android.R.drawable.ic_dialog_info)
                         .setItems(new String[]{"后置相机", "前置相机"}, new DialogInterface.OnClickListener() {
@@ -229,11 +220,13 @@ public class HomeActivity extends Activity implements OnClickListener {
                                 startDetector(which);
                             }
                         })
-                        .show();
+                        .show();*/
             }
 
         } else if (i == R.id.button1) {
-            new AlertDialog.Builder(this)
+            Intent intent = new Intent(HomeActivity.this,TextureCameraActivity.class);
+            startActivityForResult(intent, REQUEST_CODE_IMAGE_CAMERA);
+            /*new AlertDialog.Builder(this)
                     .setTitle("请选择注册方式")
                     .setIcon(android.R.drawable.ic_dialog_info)
                     .setItems(new String[]{"打开图片", "拍摄照片"}, new DialogInterface.OnClickListener() {
@@ -241,12 +234,12 @@ public class HomeActivity extends Activity implements OnClickListener {
                         public void onClick(DialogInterface dialog, int which) {
                             switch (which) {
                                 case 1:
-                                    /*Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
+                                    *//*Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
                                     ContentValues values = new ContentValues(1);
                                     values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
                                     Uri uri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
                                     application.setCaptureImage(uri);
-                                    intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);*/
+                                    intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);*//*
                                     Intent intent = new Intent(HomeActivity.this,TextureCameraActivity.class);
                                     startActivityForResult(intent, REQUEST_CODE_IMAGE_CAMERA);
                                     break;
@@ -261,7 +254,7 @@ public class HomeActivity extends Activity implements OnClickListener {
                             }
                         }
                     })
-                    .show();
+                    .show();*/
 
         } else {
             ;
@@ -338,9 +331,17 @@ public class HomeActivity extends Activity implements OnClickListener {
         startActivityForResult(it, REQUEST_CODE_OP);
     }
 
-    private void startDetector(int camera) {
+    private void startDetector() {
+        int dev = FrontId;
+        if (dev == -1) {
+            dev = BackId;
+            if (dev == -1) {
+                showCameraError();
+                return; //no camera
+            }
+        }
         Intent it = new Intent(HomeActivity.this, DetecterActivity.class);
-        it.putExtra("Camera", camera);
+        it.putExtra("Camera", dev);
         startActivityForResult(it, REQUEST_CODE_OP_DETECTER);
     }
 
