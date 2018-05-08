@@ -16,6 +16,16 @@ public class Application {
 	private final String TAG = this.getClass().toString();
 	FaceDB mFaceDB;
 	Uri mImage;
+	String cameraPic;
+
+	public String getCameraPic() {
+		return cameraPic;
+	}
+
+	public void setCameraPic(String cameraPic) {
+		this.cameraPic = cameraPic;
+	}
+
 	private static Application instance;
 	private Application(Context context){
 		mFaceDB = new FaceDB(context.getExternalCacheDir().getPath());

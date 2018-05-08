@@ -69,9 +69,8 @@ public class PermissionAcitivity extends Activity {
 
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == PERMISSION_REQ) {
-			if (resultCode == 0) {
-				this.finish();
-			}
+			setResult(resultCode);
+			finish();
 		}
 	}
 
@@ -92,6 +91,7 @@ public class PermissionAcitivity extends Activity {
 						public void run() {
 							mProgressDialog.cancel();
 							Intent intent = new Intent(PermissionAcitivity.this, HomeActivity.class);
+							intent.putExtra(HomeActivity.IN_KEY, getIntent().getBooleanExtra(HomeActivity.IN_KEY, false));
 							startActivityForResult(intent, PERMISSION_REQ);
 						}
 					});
