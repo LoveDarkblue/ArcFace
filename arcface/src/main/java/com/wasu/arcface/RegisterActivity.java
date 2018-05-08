@@ -149,7 +149,7 @@ public class RegisterActivity extends Activity implements SurfaceHolder.Callback
 						canvas.translate(dst.left / scale, dst.top / scale);
 						for (AFD_FSDKFace face : result) {
 							mPaint.setColor(Color.RED);
-							mPaint.setStrokeWidth(10.0f);
+							mPaint.setStrokeWidth(5.0f);
 							mPaint.setStyle(Paint.Style.STROKE);
 							canvas.drawRect(face.getRect(), mPaint);
 						}

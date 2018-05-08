@@ -158,6 +158,9 @@ public class TextureCameraActivity extends AppCompatActivity implements TextureV
 
     //拍照
     public void takePhoto(View view) {
+        if (!isCanClick()) {
+            return;
+        }
         mCamera.takePicture(null, null, new Camera.PictureCallback() {
             @Override
             public void onPictureTaken(byte[] data, Camera camera) {
@@ -172,6 +175,7 @@ public class TextureCameraActivity extends AppCompatActivity implements TextureV
                     }
                     FileOutputStream fileOutputStream = new FileOutputStream(face);
                     bitmap.compress(Bitmap.CompressFormat.PNG, 85, fileOutputStream);
+                    bitmap.recycle();
                     camera.stopPreview();
                     Application.getInstance(getApplicationContext()).setCameraPic(face);
                     Toast.makeText(getApplicationContext(), "success", Toast.LENGTH_SHORT).show();
@@ -182,6 +186,18 @@ public class TextureCameraActivity extends AppCompatActivity implements TextureV
                 }
             }
         });
+    }
+
+    private long lastClickTime;
+
+    public boolean isCanClick() {
+        long time = System.currentTimeMillis();
+        long timeD = time - lastClickTime;
+        if (0 < timeD && timeD < 5000) {
+            return false;
+        }
+        lastClickTime = time;
+        return true;
     }
 
     public File getSdcardCacheDir(String uniqueName) {

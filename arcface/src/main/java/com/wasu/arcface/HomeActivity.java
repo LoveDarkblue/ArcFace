@@ -98,8 +98,8 @@ public class HomeActivity extends Activity implements OnClickListener {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.main_test);
         isRegister = getIntent().getBooleanExtra(IN_KEY, false);
+        device_check();
         if (!isRegister) {
-            device_check();
             startDetector();
             return;
         }
@@ -148,7 +148,6 @@ public class HomeActivity extends Activity implements OnClickListener {
         } catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(getApplicationContext(), "未检测到摄像头", Toast.LENGTH_SHORT).show();
-            finish();
         }
     }
 
@@ -187,7 +186,7 @@ public class HomeActivity extends Activity implements OnClickListener {
             if (isRegister) {
                 if (resultCode == DETECTER_RESULT_OK) {
                     Toast.makeText(getApplicationContext(), "比对通过!", Toast.LENGTH_SHORT).show();
-                } else if(resultCode ==DETECTER_RESULT_NO){
+                } else if (resultCode == DETECTER_RESULT_NO) {
                     Toast.makeText(getApplicationContext(), "比对失败!", Toast.LENGTH_SHORT).show();
                 }
             } else {
@@ -224,7 +223,7 @@ public class HomeActivity extends Activity implements OnClickListener {
             }
 
         } else if (i == R.id.button1) {
-            Intent intent = new Intent(HomeActivity.this,TextureCameraActivity.class);
+            Intent intent = new Intent(HomeActivity.this, TextureCameraActivity.class);
             startActivityForResult(intent, REQUEST_CODE_IMAGE_CAMERA);
             /*new AlertDialog.Builder(this)
                     .setTitle("请选择注册方式")
